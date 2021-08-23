@@ -15,13 +15,19 @@ def generate_launch_description():
     use_gui_arg = DeclareLaunchArguments(
         'use_gui',
         default_value='false',
-        description='whether to run gazebo GUI. Options: true, false (default)',
+        description='whether to run gazebo GUI (Default: false)',
     )
 
     world_arg = DeclareLaunchArguments(
         'world',
         default_value='drag_race',
-        description='which world to launch. Options: drag_race (default), circuit, urban',
+        description='which world to launch (Options: drag_race , circuit, urban | Default: drag_race)',
+    )
+
+    paused_arg = DeclareLaunchArguments(
+        'paused',
+        default_value='false',
+        description='whether to run paused mode or not (Default: false)',
     )
 
     # rviz
@@ -29,7 +35,7 @@ def generate_launch_description():
     rviz_arg = DeclareLaunchArguments(
         'rviz',
         default_value='true',
-        description='whether to launch rviz. Options: true (default), false',
+        description='whether to launch rviz (Default: false)',
     )
 
     # rqt_steer
@@ -37,22 +43,23 @@ def generate_launch_description():
     rqt_steer_arg = DeclareLaunchArguments(
         'rqt_steer',
         default_value='false',
-        description='whether to launch rqt_steer node',
+        description='whether to launch rqt_steer node (Default: false)',
     )
 
     # =============
     # === Nodes ===
     # =============
 
-    # ==========================
-    # === Other Launch Files ===
-    # ==========================
+    # ===============================
+    # === Call Other Launch Files ===
+    # ===============================
 
     gazebo_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([ThisLaunchFileDir(), '/empty_world.launch']),
         launch_arguments={
             'use_gui': use_gui_arg,
-            'world': world_arg
+            'world': world_arg,
+            'paused': paused_arg
         }.items(),
     )
 
